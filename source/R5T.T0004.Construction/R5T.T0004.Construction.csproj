@@ -1,12 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\R5T.Bedford.Bath.Standard\source\R5T.Bedford.Bath.Standard\R5T.Bedford.Bath.Standard.csproj" />
+    <ProjectReference Include="..\..\..\R5T.Chalandri.DropboxRivetTestingData\source\R5T.Chalandri.DropboxRivetTestingData\R5T.Chalandri.DropboxRivetTestingData.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0001\source\R5T.D0001.Standard\R5T.D0001.Standard.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0010\source\R5T.D0010.Default\R5T.D0010.Default.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0010\source\R5T.D0010.Extensions\R5T.D0010.Extensions.csproj" />
+    <ProjectReference Include="..\..\..\R5T.Evosmos.CDriveTemp\source\R5T.Evosmos.CDriveTemp\R5T.Evosmos.CDriveTemp.csproj" />
+    <ProjectReference Include="..\..\..\R5T.Liverpool\source\R5T.Liverpool.HostedServiceProgram\R5T.Liverpool.HostedServiceProgram.csproj" />
+    <ProjectReference Include="..\..\..\R5T.Richmond.Types\source\R5T.Richmond.Types\R5T.Richmond.Types.csproj" />
     <ProjectReference Include="..\R5T.T0004\R5T.T0004.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
 </Project>
