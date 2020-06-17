@@ -12,13 +12,13 @@ namespace R5T.T0004.Construction
     public static class IServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds the <see cref="RelativeFilePathsVisualStudioProjectFileStreamSerializer"/> implementation of <see cref="IRelativeFilePathsVisualStudioProjectFileStreamSerializer"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="RelativePathsXDocumentVisualStudioProjectFileStreamSerializer"/> implementation of <see cref="IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer"/> as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceCollection AddRelativeFilePathsVisualStudioProjectFileStreamSerializer(this IServiceCollection services,
             IServiceAction<INowUtcProvider> nowUtcProviderAction)
         {
             services
-                .AddSingleton<IRelativeFilePathsVisualStudioProjectFileStreamSerializer, RelativeFilePathsVisualStudioProjectFileStreamSerializer>()
+                .AddSingleton<IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer, RelativePathsXDocumentVisualStudioProjectFileStreamSerializer>()
                 .Run(nowUtcProviderAction)
                 ;
 
@@ -26,12 +26,12 @@ namespace R5T.T0004.Construction
         }
 
         /// <summary>
-        /// Adds the <see cref="RelativeFilePathsVisualStudioProjectFileStreamSerializer"/> implementation of <see cref="IRelativeFilePathsVisualStudioProjectFileStreamSerializer"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="RelativePathsXDocumentVisualStudioProjectFileStreamSerializer"/> implementation of <see cref="IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer"/> as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
-        public static IServiceAction<IRelativeFilePathsVisualStudioProjectFileStreamSerializer> AddRelativeFilePathsVisualStudioProjectFileStreamSerializerAction(this IServiceCollection services,
+        public static IServiceAction<IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer> AddRelativeFilePathsVisualStudioProjectFileStreamSerializerAction(this IServiceCollection services,
             IServiceAction<INowUtcProvider> nowUtcProviderAction)
         {
-            var serviceAction = ServiceAction<IRelativeFilePathsVisualStudioProjectFileStreamSerializer>.New(() => services.AddRelativeFilePathsVisualStudioProjectFileStreamSerializer(
+            var serviceAction = ServiceAction<IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer>.New(() => services.AddRelativeFilePathsVisualStudioProjectFileStreamSerializer(
                 nowUtcProviderAction));
 
             return serviceAction;

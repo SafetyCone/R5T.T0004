@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -7,12 +8,15 @@ using Microsoft.Extensions.Hosting;
 
 using R5T.D0010;
 
+using R5T.Angleterria;
 using R5T.Bedford;
 using R5T.Chalandri;
 using R5T.Evosmos;
 using R5T.Liverpool;
+using R5T.Lombardy;
 using R5T.Magyar.IO;
 using R5T.Magyar.Xml;
+using R5T.Ostersund;
 
 
 namespace R5T.T0004.Construction
@@ -52,7 +56,68 @@ namespace R5T.T0004.Construction
         {
             //await this.CompareIdenticalFiles();
             //await this.CompareRoundTripBasicXmlSerializedFiles();
-            await this.CompareRoundTripRelativeFilePathsSerializedFiles();
+            //await this.CompareRoundTripRelativeFilePathsSerializedFiles();
+            //await this.TestPrettificationOfProjectXElement();
+            //await this.TestCreateProjectFile();
+            await this.TestSerializerRoundTrip();
+        }
+
+        private async Task TestSerializerRoundTrip()
+        {
+            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+            var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile02.csproj");
+
+            var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
+
+            var xElementVisualStudioProjectFile = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+
+            var asFilePathXElementVisualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IAsFilePathXDocumentVisualStudioProjectFileSerializer>();
+
+            await asFilePathXElementVisualStudioProjectFileSerializer.SerializeAsync(outputProjectFilePath, inputProjectFilePath, xElementVisualStudioProjectFile);
+
+            // Compare.
+            await this.CompareFiles(inputProjectFilePath, outputProjectFilePath, "Files not equal.");
+        }
+
+        private async Task TestCreateProjectFile()
+        {
+            var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile02.csproj");
+
+            var projectFile = XDocumentVisualStudioProjectFile.New();
+
+            projectFile.SDK = Sdk.MicrosoftNetSdk;
+
+            projectFile.TargetFramework = TargetFramework.NetCoreApp22;
+            projectFile.OutputType = OutputType.Executable;
+            projectFile.LanguageVersion = Version.Parse("7.3");
+
+            var stringlyTypedPathOperator = this.ServiceProvider.GetRequiredService<IStringlyTypedPathOperator>();
+
+            var projectFilePath = stringlyTypedPathOperator.Combine(outputProjectFilePath, @"..\..\..\R5T.Chalandri.DropboxRivetTestingData\source\R5T.Chalandri.DropboxRivetTestingData\R5T.Chalandri.DropboxRivetTestingData.csproj");
+            projectFile.AddProjectReference(projectFilePath);
+
+            projectFile.AddPackageReference("Microsoft.NET.Test.Sdk", "16.2.0");
+
+            var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
+
+            await visualStudioProjectFileSerializer.SerializeAsync(outputProjectFilePath, projectFile);
+        }
+
+        private async Task TestPrettificationOfProjectXElement()
+        {
+            var projectXElementPrettifier = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileXDocumentPrettifier>();
+
+            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+
+            var relativeFilePathsVisualStudioProjectFileStreamSerializer = this.ServiceProvider.GetRequiredService<IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer>();
+            using (var inputFileStream = FileStreamHelper.NewRead(inputProjectFilePath))
+            {
+                var visualStudioProjectFile = await relativeFilePathsVisualStudioProjectFileStreamSerializer.DeserializeAsync(inputFileStream, this.MessageSink);
+
+                var xElementVisualStudioProjectFile = visualStudioProjectFile as XDocumentVisualStudioProjectFile;
+
+                await projectXElementPrettifier.Prettify(xElementVisualStudioProjectFile.VisualStudoProjectFileXDocument);
+            }
         }
 
         private async Task CompareRoundTripRelativeFilePathsSerializedFiles()
@@ -60,7 +125,7 @@ namespace R5T.T0004.Construction
             var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
             var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile01.csproj");
 
-            var relativeFilePathsVisualStudioProjectFileStreamSerializer = this.ServiceProvider.GetRequiredService<IRelativeFilePathsVisualStudioProjectFileStreamSerializer>();
+            var relativeFilePathsVisualStudioProjectFileStreamSerializer = this.ServiceProvider.GetRequiredService<IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer>();
 
             using (var inputFileStream = FileStreamHelper.NewRead(inputProjectFilePath))
             {

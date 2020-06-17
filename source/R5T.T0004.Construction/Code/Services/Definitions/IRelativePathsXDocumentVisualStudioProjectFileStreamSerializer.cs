@@ -11,9 +11,9 @@ namespace R5T.T0004.Construction
     /// <summary>
     /// Produces a <see cref="IVisualStudioProjectFile"/> where file paths (like project-references) are still relative file paths.
     /// </summary>
-    public interface IRelativeFilePathsVisualStudioProjectFileStreamSerializer
+    public interface IRelativePathsXDocumentVisualStudioProjectFileStreamSerializer
     {
-        Task<IVisualStudioProjectFile> DeserializeAsync(Stream stream, IMessageSink messageSink);
-        Task SerializeAsync(Stream stream, IVisualStudioProjectFile visualStudioProjectFile, IMessageSink messageSink);
+        Task<XDocumentVisualStudioProjectFile> DeserializeAsync(Stream stream, IMessageSink messageSink);
+        Task SerializeAsync(Stream stream, XDocumentVisualStudioProjectFile xElementVisualStudioProjectFile, IMessageSink messageSink);
     }
 }

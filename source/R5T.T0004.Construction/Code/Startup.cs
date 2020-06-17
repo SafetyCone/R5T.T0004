@@ -28,21 +28,38 @@ namespace R5T.T0004.Construction
             var fileEqualityComparerAction = services.AddTextFileEqualityComparerAction();
             var messageFormatterAction = services.AddMessageFormatterAction();
             var nowUtcProviderAction = services.AddNowUtcProviderAction();
+            var projectXElementPrettifierAction = ServiceAction<IVisualStudioProjectFileXDocumentPrettifier>.New(() => services.AddSingleton<IVisualStudioProjectFileXDocumentPrettifier, VisualStudioProjectFileXDocumentPrettifier>());
             var temporaryDirectoryFilePathProviderAction = services.AddTemporaryDirectoryFilePathProviderAction();
             var testingDataDirectoryContentPathsProviderAction = services.AddTestingDataDirectoryContentPathsProviderAction();
 
             // 1.
-            var messageSink = services.AddConsoleMessageSinkAction(
+            var messageSinkAction = services.AddConsoleMessageSinkAction(
                 messageFormatterAction);
-            var relativeFilePathsVisualStudioProjectFileStreamSerializer = services.AddRelativeFilePathsVisualStudioProjectFileStreamSerializerAction(
+            var relativeFilePathsVisualStudioProjectFileStreamSerializerAction = services.AddRelativeFilePathsVisualStudioProjectFileStreamSerializerAction(
                 nowUtcProviderAction);
 
+            // 2.
+            var functionalVisualStudioProjectFileStreamSerializerAction = ServiceAction<IFunctionalVisualStudioProjectFileSerializationModifier>.New(() => services.AddSingleton<IFunctionalVisualStudioProjectFileSerializationModifier, FunctionalVisualStudioProjectFileSerializationModifier>());
+            // dependencies...
+
+            // 3.
+            var visualStudioProjectFileSerializerAction = ServiceAction<IXDocumentVisualStudioProjectFileSerializer>.New(() => services.AddSingleton<IXDocumentVisualStudioProjectFileSerializer, XDocumentVisualStudioProjectFileSerializer>());
+            // dependencies...
+
+
+            var asFilePathXElementVisualStudioProjectFileSerializer = ServiceAction<IAsFilePathXDocumentVisualStudioProjectFileSerializer>.New(() => services.AddSingleton<IAsFilePathXDocumentVisualStudioProjectFileSerializer, AsFilePathXDocumentVisualStudioProjectFileSerializer>());
+            // dependencies...
+
             services
+                .Run(asFilePathXElementVisualStudioProjectFileSerializer)
                 .Run(fileEqualityComparerAction)
-                .Run(messageSink)
-                .Run(relativeFilePathsVisualStudioProjectFileStreamSerializer)
+                .Run(functionalVisualStudioProjectFileStreamSerializerAction)
+                .Run(messageSinkAction)
+                .Run(projectXElementPrettifierAction)
+                .Run(relativeFilePathsVisualStudioProjectFileStreamSerializerAction)
                 .Run(temporaryDirectoryFilePathProviderAction)
                 .Run(testingDataDirectoryContentPathsProviderAction)
+                .Run(visualStudioProjectFileSerializerAction)
                 ;
         }
     }

@@ -19,7 +19,16 @@ namespace R5T.T0004
         #endregion
 
 
-        public ProjectXElement ProjectElement { get; set; }
+        public ProjectXElement ProjectXElement
+        {
+            get
+            {
+                var xParent = this.Value.Parent;
+
+                var projectXElement = new ProjectXElement(xParent);
+                return projectXElement;
+            }
+        }
 
 
         public PropertyGroupXElement(XElement value)
