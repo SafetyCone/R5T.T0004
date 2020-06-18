@@ -64,8 +64,13 @@ namespace R5T.T0004.Construction
 
         private async Task TestSerializerRoundTrip()
         {
-            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
-            var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile02.csproj");
+            //// Test file 1.
+            //var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+            //var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile02.csproj");
+
+            // Test file 2.
+            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath02();
+            var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile03.csproj");
 
             var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
 
@@ -81,6 +86,8 @@ namespace R5T.T0004.Construction
 
         private async Task TestCreateProjectFile()
         {
+            var asProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+
             var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile02.csproj");
 
             var projectFile = XDocumentVisualStudioProjectFile.New();
@@ -93,14 +100,14 @@ namespace R5T.T0004.Construction
 
             var stringlyTypedPathOperator = this.ServiceProvider.GetRequiredService<IStringlyTypedPathOperator>();
 
-            var projectFilePath = stringlyTypedPathOperator.Combine(outputProjectFilePath, @"..\..\..\R5T.Chalandri.DropboxRivetTestingData\source\R5T.Chalandri.DropboxRivetTestingData\R5T.Chalandri.DropboxRivetTestingData.csproj");
+            var projectFilePath = stringlyTypedPathOperator.Combine(asProjectFilePath, @"..\..\..\R5T.Chalandri.DropboxRivetTestingData\source\R5T.Chalandri.DropboxRivetTestingData\R5T.Chalandri.DropboxRivetTestingData.csproj");
             projectFile.AddProjectReference(projectFilePath);
 
             projectFile.AddPackageReference("Microsoft.NET.Test.Sdk", "16.2.0");
 
-            var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
+            var asFilePathXDocumentVisualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IAsFilePathXDocumentVisualStudioProjectFileSerializer>();
 
-            await visualStudioProjectFileSerializer.SerializeAsync(outputProjectFilePath, projectFile);
+            await asFilePathXDocumentVisualStudioProjectFileSerializer.SerializeAsync(outputProjectFilePath, asProjectFilePath, projectFile);
         }
 
         private async Task TestPrettificationOfProjectXElement()
