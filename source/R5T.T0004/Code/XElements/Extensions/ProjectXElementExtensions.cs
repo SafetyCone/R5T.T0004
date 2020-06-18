@@ -325,8 +325,8 @@ namespace R5T.T0004
         {
             if (settable.IsSet)
             {
-                var generateDocumentationFileElement = projectXElement.AcquirePropertyElement(propertyElementName);
-                generateDocumentationFileElement.Value = propertyValueToString(settable.Value);
+                var xPropertyXElement = projectXElement.AcquirePropertyElement(propertyElementName);
+                xPropertyXElement.Value = propertyValueToString(settable.Value);
             }
             else
             {
