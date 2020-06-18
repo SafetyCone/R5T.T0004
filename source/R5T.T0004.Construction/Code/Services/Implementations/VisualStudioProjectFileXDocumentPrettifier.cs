@@ -76,11 +76,7 @@ namespace R5T.T0004.Construction
             foreach (var xElement in xElements)
             {
                 var priorNode = xElement.PreviousNode;
-                if(priorNode is XText priorTextNode)
-                {
-                    priorTextNode.Value = beforeElementText;
-                }
-                else
+                if(!priorNode.IsText())
                 {
                     // Add a blank-line XText element just before the element.
                     var xText = new XText(beforeElementText);
@@ -90,11 +86,7 @@ namespace R5T.T0004.Construction
 
             var afterElementText = $"{newLine}{newLine}";
             var lastNode = xProjectXElement.LastNode;
-            if(lastNode is XText lastTextNode)
-            {
-                lastTextNode.Value = afterElementText;
-            }
-            else
+            if(!lastNode.IsText())
             {
                 // Add a blank line after the last node.
                 var xText = new XText(afterElementText);
@@ -113,11 +105,7 @@ namespace R5T.T0004.Construction
             var hasLastNewLineNode = XNodeHelper.WasFound(lastNodeInFile);
             if(hasLastNewLineNode)
             {
-                if(lastNodeInFile is XText lastTextNodeInFile)
-                {
-                    lastTextNodeInFile.Value = lastNodeText;
-                }
-                else
+                if(!lastNodeInFile.IsText())
                 {
                     // Add a blank line after the project node.
                     var xText = new XText(lastNodeText);
@@ -149,11 +137,7 @@ namespace R5T.T0004.Construction
             foreach (var childXElement in childXElements)
             {
                 var priorNode = childXElement.PreviousNode;
-                if (priorNode is XText priorTextNode)
-                {
-                    priorTextNode.Value = beforeElementText;
-                }
-                else
+                if (!priorNode.IsText())
                 {
                     // Add a blank-line XText element just before the element.
                     var xText = new XText(beforeElementText);
@@ -165,11 +149,7 @@ namespace R5T.T0004.Construction
             var afterElementText = $"{newLine}{indentAfterElement}";
 
             var lastNode = xElement.LastNode;
-            if (lastNode is XText lastTextNode)
-            {
-                lastTextNode.Value = afterElementText;
-            }
-            else
+            if (!lastNode.IsText())
             {
                 // Add a blank line after the last node.
                 var xText = new XText(afterElementText);
