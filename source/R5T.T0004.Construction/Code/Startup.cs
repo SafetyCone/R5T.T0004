@@ -27,16 +27,20 @@ namespace R5T.T0004.Construction
             // 0.
             var fileEqualityComparerAction = services.AddTextFileEqualityComparerAction();
             var messageFormatterAction = services.AddMessageFormatterAction();
+            var newVisualStudioProjectFileGeneratorAction = ServiceAction<INewVisualStudioProjectFileGenerator>.New(() => services.AddSingleton<INewVisualStudioProjectFileGenerator, NewXDocumentVisualStudioProjectFileGenerator>());
             var nowUtcProviderAction = services.AddNowUtcProviderAction();
             var projectXElementPrettifierAction = ServiceAction<IVisualStudioProjectFileXDocumentPrettifier>.New(() => services.AddSingleton<IVisualStudioProjectFileXDocumentPrettifier, VisualStudioProjectFileXDocumentPrettifier>());
             var temporaryDirectoryFilePathProviderAction = services.AddTemporaryDirectoryFilePathProviderAction();
             var testingDataDirectoryContentPathsProviderAction = services.AddTestingDataDirectoryContentPathsProviderAction();
+            var visualStudioProjectFileTransformerAction = ServiceAction<IVisualStudioProjectFileTransformer>.New(() => services.AddSingleton<IVisualStudioProjectFileTransformer, VisualStudioProjectFileTransformer>());
 
             // 1.
             var messageSinkAction = services.AddConsoleMessageSinkAction(
                 messageFormatterAction);
             var relativeFilePathsVisualStudioProjectFileStreamSerializerAction = services.AddRelativeFilePathsVisualStudioProjectFileStreamSerializerAction(
                 nowUtcProviderAction);
+            var visualStudioProjectFileValueEqualityComparerAction = ServiceAction<IVisualStudioProjectFileValueEqualityComparer>.New(() => services.AddSingleton<IVisualStudioProjectFileValueEqualityComparer, VisualStudioProjectFileValueEqualityComparer>());
+            // dependencies...
 
             // 2.
             var functionalVisualStudioProjectFileStreamSerializerAction = ServiceAction<IFunctionalVisualStudioProjectFileSerializationModifier>.New(() => services.AddSingleton<IFunctionalVisualStudioProjectFileSerializationModifier, FunctionalVisualStudioProjectFileSerializationModifier>());
@@ -55,11 +59,14 @@ namespace R5T.T0004.Construction
                 .Run(fileEqualityComparerAction)
                 .Run(functionalVisualStudioProjectFileStreamSerializerAction)
                 .Run(messageSinkAction)
+                .Run(newVisualStudioProjectFileGeneratorAction)
                 .Run(projectXElementPrettifierAction)
                 .Run(relativeFilePathsVisualStudioProjectFileStreamSerializerAction)
                 .Run(temporaryDirectoryFilePathProviderAction)
                 .Run(testingDataDirectoryContentPathsProviderAction)
+                .Run(visualStudioProjectFileValueEqualityComparerAction)
                 .Run(visualStudioProjectFileSerializerAction)
+                .Run(visualStudioProjectFileTransformerAction)
                 ;
         }
     }

@@ -59,7 +59,89 @@ namespace R5T.T0004.Construction
             //await this.CompareRoundTripRelativeFilePathsSerializedFiles();
             //await this.TestPrettificationOfProjectXElement();
             //await this.TestCreateProjectFile();
-            await this.TestSerializerRoundTrip();
+            //await this.TestSerializerRoundTrip();
+            //await this.TestVisualStudioProjectFileComparerNegative();
+            //await this.TestVisualStudioProjectFileComparerPositive();
+            await this.TestVisualStudioProjectFileTransformer();
+        }
+
+        private async Task TestVisualStudioProjectFileTransformer()
+        {
+            // Test is meant to succeed.
+            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+
+            var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
+
+            var projectFile1 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+
+            var newVisualStudioProjectFileGenerator = this.ServiceProvider.GetRequiredService<INewVisualStudioProjectFileGenerator>();
+
+            var projectFile2 = await newVisualStudioProjectFileGenerator.CreateNewVisualStudioProjectFile(); // New file is definitely NOT the example file.
+
+            var visualStudioProjectFileTransformer = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileTransformer>();
+
+            // Transform project file 2 into project file 1.
+            await visualStudioProjectFileTransformer.CopySourceToDestinationAsync(projectFile1, projectFile2);
+
+            var visualStudioProjectFileEqualityComparer = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileValueEqualityComparer>();
+
+            var projectFiles1And2Equal = await visualStudioProjectFileEqualityComparer.Equals(projectFile1, projectFile2, this.MessageSink);
+            if (!projectFiles1And2Equal)
+            {
+                throw new Exception("Project file values SHOULD be equal.");
+            }
+
+            var projectFile3 = await newVisualStudioProjectFileGenerator.CreateNewVisualStudioProjectFile(); // New file is definitely NOT the example file.
+
+            await visualStudioProjectFileTransformer.CopySourceToDestinationAsync(projectFile3, projectFile2);
+
+            var projectFiles3And2Equal = await visualStudioProjectFileEqualityComparer.Equals(projectFile3, projectFile2, this.MessageSink);
+            if (!projectFiles3And2Equal)
+            {
+                throw new Exception("Project file values SHOULD be equal.");
+            }
+        }
+
+        private async Task TestVisualStudioProjectFileComparerPositive()
+        {
+            // Test is meant to succeed.
+            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+
+            var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
+
+            var projectFile1 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+
+            var projectFile2 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath); // Same file again.
+
+            var visualStudioProjectFileEqualityComparer = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileValueEqualityComparer>();
+
+            var projectFilesEqual = await visualStudioProjectFileEqualityComparer.Equals(projectFile1, projectFile2, this.MessageSink);
+            if (!projectFilesEqual)
+            {
+                throw new Exception("Project file values SHOULD be equal.");
+            }
+        }
+
+        private async Task TestVisualStudioProjectFileComparerNegative()
+        {
+            // Test is meant to fail.
+            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+
+            var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
+
+            var projectFile1 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+
+            var newVisualStudioProjectFileGenerator = this.ServiceProvider.GetRequiredService<INewVisualStudioProjectFileGenerator>();
+
+            var projectFile2 = await newVisualStudioProjectFileGenerator.CreateNewVisualStudioProjectFile();
+
+            var visualStudioProjectFileEqualityComparer = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileValueEqualityComparer>();
+
+            var projectFilesEqual = await visualStudioProjectFileEqualityComparer.Equals(projectFile1, projectFile2, this.MessageSink);
+            if(projectFilesEqual)
+            {
+                throw new Exception("Project file values should NOT be equal.");
+            }
         }
 
         private async Task TestSerializerRoundTrip()
