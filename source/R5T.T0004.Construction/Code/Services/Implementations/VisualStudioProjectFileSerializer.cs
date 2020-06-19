@@ -28,9 +28,9 @@ namespace R5T.T0004.Construction
 
         public async Task SerializeAsync(string projectFilePath, IVisualStudioProjectFile visualStudioProjectFile, bool overwrite = true)
         {
-            XDocumentVisualStudioProjectFile xDocumentVisualStudioProjectFile;
-
             var isXDocumentVisualStudioProjectFile = visualStudioProjectFile is XDocumentVisualStudioProjectFile;
+
+            XDocumentVisualStudioProjectFile xDocumentVisualStudioProjectFile;
             if(isXDocumentVisualStudioProjectFile)
             {
                 xDocumentVisualStudioProjectFile = visualStudioProjectFile as XDocumentVisualStudioProjectFile;
