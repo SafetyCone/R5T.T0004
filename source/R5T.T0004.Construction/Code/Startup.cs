@@ -5,11 +5,13 @@ using Microsoft.Extensions.Logging;
 
 using R5T.D0001.Standard;
 using R5T.D0010.Default;
+using R5T.D0017.Default;
 
 using R5T.Bedford.Bath.Standard;
 using R5T.Chalandri.DropboxRivetTestingData;
 using R5T.Dacia;
 using R5T.Evosmos.CDriveTemp;
+using R5T.Lombardy.Standard;
 using R5T.Richmond;
 
 
@@ -24,6 +26,9 @@ namespace R5T.T0004.Construction
 
         protected override void ConfigureServicesBody(IServiceCollection services)
         {
+            // -1.
+            var stringlyTypedPathOperatorAction = services.AddStringlyTypedPathOperatorAction();
+
             // 0.
             var fileEqualityComparerAction = services.AddTextFileEqualityComparerAction();
             var messageFormatterAction = services.AddMessageFormatterAction();
@@ -35,6 +40,8 @@ namespace R5T.T0004.Construction
             var visualStudioProjectFileTransformerAction = ServiceAction<IVisualStudioProjectFileTransformer>.New(() => services.AddSingleton<IVisualStudioProjectFileTransformer, VisualStudioProjectFileTransformer>());
 
             // 1.
+            var functionalVisualStudioProjectFileStreamSerializerAction = services.AddFunctionalVisualStudioProjectFileSerializationModifierAction(
+                stringlyTypedPathOperatorAction);
             var messageSinkAction = services.AddConsoleMessageSinkAction(
                 messageFormatterAction);
             var relativeFilePathsVisualStudioProjectFileStreamSerializerAction = services.AddRelativeFilePathsVisualStudioProjectFileStreamSerializerAction(
@@ -43,8 +50,6 @@ namespace R5T.T0004.Construction
             // dependencies...
 
             // 2.
-            var functionalVisualStudioProjectFileStreamSerializerAction = ServiceAction<IFunctionalVisualStudioProjectFileSerializationModifier>.New(() => services.AddSingleton<IFunctionalVisualStudioProjectFileSerializationModifier, FunctionalVisualStudioProjectFileSerializationModifier>());
-            // dependencies...
 
             // 3.
             var visualStudioProjectFileSerializerAction = ServiceAction<IXDocumentVisualStudioProjectFileSerializer>.New(() => services.AddSingleton<IXDocumentVisualStudioProjectFileSerializer, XDocumentVisualStudioProjectFileSerializer>());
