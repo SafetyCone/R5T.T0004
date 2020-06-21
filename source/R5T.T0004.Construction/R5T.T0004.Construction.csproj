@@ -8,6 +8,7 @@
     <ProjectReference Include="..\..\..\R5T.D0010\source\R5T.D0010.Extensions\R5T.D0010.Extensions.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0013\source\R5T.D0013.Base\R5T.D0013.Base.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0016\source\R5T.D0016.Base\R5T.D0016.Base.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0017\source\R5T.D0017.Default\R5T.D0017.Default.csproj" />
     <ProjectReference Include="..\..\..\R5T.Evosmos.CDriveTemp\source\R5T.Evosmos.CDriveTemp\R5T.Evosmos.CDriveTemp.csproj" />
     <ProjectReference Include="..\..\..\R5T.Liverpool\source\R5T.Liverpool.HostedServiceProgram\R5T.Liverpool.HostedServiceProgram.csproj" />
     <ProjectReference Include="..\..\..\R5T.Richmond.Types\source\R5T.Richmond.Types\R5T.Richmond.Types.csproj" />
