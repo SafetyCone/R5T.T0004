@@ -7,6 +7,7 @@ using R5T.D0001.Standard;
 using R5T.D0010.Default;
 using R5T.D0017.Default;
 using R5T.D0018.I0001;
+using R5T.D0019.Default;
 
 using R5T.Bedford.Bath.Standard;
 using R5T.Chalandri.DropboxRivetTestingData;
@@ -38,7 +39,7 @@ namespace R5T.T0004.Construction
             var projectXElementPrettifierAction = ServiceAction<IVisualStudioProjectFileXDocumentPrettifier>.New(() => services.AddSingleton<IVisualStudioProjectFileXDocumentPrettifier, VisualStudioProjectFileXDocumentPrettifier>());
             var temporaryDirectoryFilePathProviderAction = services.AddTemporaryDirectoryFilePathProviderAction();
             var testingDataDirectoryContentPathsProviderAction = services.AddTestingDataDirectoryContentPathsProviderAction();
-            var visualStudioProjectFileTransformerAction = ServiceAction<IVisualStudioProjectFileTransformer>.New(() => services.AddSingleton<IVisualStudioProjectFileTransformer, VisualStudioProjectFileTransformer>());
+            var visualStudioProjectFileTransformerAction = services.AddVisualStudioProjectFileTransformerAction();
 
             // 1.
             var functionalVisualStudioProjectFileStreamSerializerAction = services.AddFunctionalVisualStudioProjectFileSerializationModifierAction(
