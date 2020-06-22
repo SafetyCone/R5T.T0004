@@ -8,6 +8,7 @@ using R5T.D0010.Default;
 using R5T.D0017.Default;
 using R5T.D0018.I0001;
 using R5T.D0019.Default;
+using R5T.D0020.Default;
 
 using R5T.Bedford.Bath.Standard;
 using R5T.Chalandri.DropboxRivetTestingData;
@@ -48,8 +49,8 @@ namespace R5T.T0004.Construction
                 messageFormatterAction);
             var relativeFilePathsVisualStudioProjectFileStreamSerializerAction = services.AddRelativeFilePathsVisualStudioProjectFileStreamSerializerAction(
                 nowUtcProviderAction);
-            var visualStudioProjectFileValueEqualityComparerAction = ServiceAction<IVisualStudioProjectFileValueEqualityComparer>.New(() => services.AddSingleton<IVisualStudioProjectFileValueEqualityComparer, VisualStudioProjectFileValueEqualityComparer>());
-            // dependencies...
+            var visualStudioProjectFileValueEqualityComparerAction = services.AddVisualStudioProjectFileValueEqualityComparerAction(
+                nowUtcProviderAction);
 
             // 2.
 
