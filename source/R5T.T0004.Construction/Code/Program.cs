@@ -10,6 +10,8 @@ using R5T.D0010;
 using R5T.D0018;
 using R5T.D0019;
 using R5T.D0020;
+using R5T.D0021;
+using R5T.D0021.Default;
 using R5T.D0022;
 
 using R5T.Angleterria;
@@ -58,17 +60,18 @@ namespace R5T.T0004.Construction
 
         protected override async Task SubMainAsync()
         {
-            Program.Scratch();
+            //Program.Scratch();
 
             //await this.CompareIdenticalFiles();
             //await this.CompareRoundTripBasicXmlSerializedFiles();
             //await this.CompareRoundTripRelativeFilePathsSerializedFiles();
             //await this.TestPrettificationOfProjectXElement();
             //await this.TestCreateProjectFile();
-            //await this.TestSerializerRoundTrip();
+            //await this.TestXDocumentSerializerRoundTrip();
             //await this.TestVisualStudioProjectFileComparerNegative();
             //await this.TestVisualStudioProjectFileComparerPositive();
             //await this.TestVisualStudioProjectFileTransformer();
+            await this.TestVisualStudioProjectFileSerializerRoundTrip();
         }
 
         private static void Scratch()
@@ -93,6 +96,28 @@ namespace R5T.T0004.Construction
             };
 
             return myList;
+        }
+
+        private async Task TestVisualStudioProjectFileSerializerRoundTrip()
+        {
+            //// Test file 1.
+            //var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
+            //var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile02.csproj");
+
+            // Test file 2.
+            var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath02();
+            var outputProjectFilePath = this.TemporaryDirectoryFilePathProvider.GetTemporaryDirectoryFilePath("ProjectFile03.csproj");
+
+            var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileSerializer>();
+
+            var xElementVisualStudioProjectFile = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+
+            var asFilePathXElementVisualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IAsFilePathVisualStudioProjectFileSerializer>();
+
+            await asFilePathXElementVisualStudioProjectFileSerializer.SerializeAsync(outputProjectFilePath, inputProjectFilePath, xElementVisualStudioProjectFile);
+
+            // Compare.
+            await this.CompareFiles(inputProjectFilePath, outputProjectFilePath, "Files not equal.");
         }
 
         private async Task TestVisualStudioProjectFileTransformer()
@@ -174,7 +199,7 @@ namespace R5T.T0004.Construction
             }
         }
 
-        private async Task TestSerializerRoundTrip()
+        private async Task TestXDocumentSerializerRoundTrip()
         {
             //// Test file 1.
             //var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
