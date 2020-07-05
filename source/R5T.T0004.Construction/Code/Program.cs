@@ -10,6 +10,7 @@ using R5T.D0010;
 using R5T.D0018;
 using R5T.D0019;
 using R5T.D0020;
+using R5T.D0022;
 
 using R5T.Angleterria;
 using R5T.Bedford;
@@ -72,7 +73,7 @@ namespace R5T.T0004.Construction
 
         private static void Scratch()
         {
-            var filePath = @"C:\Temp\";
+            //var filePath = @"C:\Temp\";
 
             var writer = Console.Out;
 
