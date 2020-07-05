@@ -9,6 +9,7 @@ using R5T.D0017.Default;
 using R5T.D0018.I0001;
 using R5T.D0019.Default;
 using R5T.D0020.Default;
+using R5T.D0022.Default;
 
 using R5T.Bedford.Bath.Standard;
 using R5T.Chalandri.DropboxRivetTestingData;
@@ -37,7 +38,7 @@ namespace R5T.T0004.Construction
             var messageFormatterAction = services.AddMessageFormatterAction();
             var newVisualStudioProjectFileGeneratorAction = services.AddNewXDocumentVisualStudioProjectFileGeneratorAction();
             var nowUtcProviderAction = services.AddNowUtcProviderAction();
-            var projectXElementPrettifierAction = ServiceAction<IVisualStudioProjectFileXDocumentPrettifier>.New(() => services.AddSingleton<IVisualStudioProjectFileXDocumentPrettifier, VisualStudioProjectFileXDocumentPrettifier>());
+            var visualStudioProjectFileXDocumentPrettifierAction = services.AddVisualStudioProjectFileXDocumentPrettifierAction();
             var temporaryDirectoryFilePathProviderAction = services.AddTemporaryDirectoryFilePathProviderAction();
             var testingDataDirectoryContentPathsProviderAction = services.AddTestingDataDirectoryContentPathsProviderAction();
             var visualStudioProjectFileTransformerAction = services.AddVisualStudioProjectFileTransformerAction();
@@ -68,7 +69,7 @@ namespace R5T.T0004.Construction
                 .Run(functionalVisualStudioProjectFileStreamSerializerAction)
                 .Run(messageSinkAction)
                 .Run(newVisualStudioProjectFileGeneratorAction)
-                .Run(projectXElementPrettifierAction)
+                .Run(visualStudioProjectFileXDocumentPrettifierAction)
                 .Run(relativeFilePathsVisualStudioProjectFileStreamSerializerAction)
                 .Run(temporaryDirectoryFilePathProviderAction)
                 .Run(testingDataDirectoryContentPathsProviderAction)

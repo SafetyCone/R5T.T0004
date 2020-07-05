@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using R5T.D0010;
+using R5T.D0018;
+using R5T.D0019;
+using R5T.D0020;
 
 using R5T.Angleterria;
 using R5T.Bedford;
@@ -54,6 +57,8 @@ namespace R5T.T0004.Construction
 
         protected override async Task SubMainAsync()
         {
+            Program.Scratch();
+
             //await this.CompareIdenticalFiles();
             //await this.CompareRoundTripBasicXmlSerializedFiles();
             //await this.CompareRoundTripRelativeFilePathsSerializedFiles();
@@ -62,7 +67,31 @@ namespace R5T.T0004.Construction
             //await this.TestSerializerRoundTrip();
             //await this.TestVisualStudioProjectFileComparerNegative();
             //await this.TestVisualStudioProjectFileComparerPositive();
-            await this.TestVisualStudioProjectFileTransformer();
+            //await this.TestVisualStudioProjectFileTransformer();
+        }
+
+        private static void Scratch()
+        {
+            var filePath = @"C:\Temp\";
+
+            var writer = Console.Out;
+
+            var strings = Program.GetStrings();
+            foreach (var value in strings)
+            {
+                writer.WriteLine(value);
+            }
+        }
+
+        private static IEnumerable<string> GetStrings()
+        {
+            var myList = new List<string>
+            {
+                "Hello!",
+                "B"
+            };
+
+            return myList;
         }
 
         private async Task TestVisualStudioProjectFileTransformer()

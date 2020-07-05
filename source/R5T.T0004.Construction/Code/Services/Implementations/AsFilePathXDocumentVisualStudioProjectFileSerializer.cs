@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using R5T.D0010;
 using R5T.D0017;
+using R5T.D0022;
 
 using R5T.Magyar.IO;
 
