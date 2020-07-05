@@ -9,9 +9,9 @@ using R5T.D0017.Default;
 using R5T.D0018.I0001;
 using R5T.D0019.Default;
 using R5T.D0020.Default;
-using R5T.D0021;
 using R5T.D0021.Default;
 using R5T.D0022.Default;
+using R5T.D0029.Default;
 
 using R5T.Bedford.Bath.Standard;
 using R5T.Chalandri.DropboxRivetTestingData;
@@ -56,20 +56,29 @@ namespace R5T.T0004.Construction
                 nowUtcProviderAction);
 
             // 2.
-            var visualStudioProjectFileSerializerAction = services.AddXDocumentVisualStudioProjectFileSerializerAction(
-                relativePathsXDocumentVisualStudioProjectFileStreamSerializerAction,
-                functionalVisualStudioProjectFileSerializationModifierAction,
-                messageSinkAction,
-                visualStudioProjectFileXDocumentPrettifierAction);
             var asFilePathXDocumentVisualStudioProjectFileSerializerAction = services.AddAsFilePathXDocumentVisualStudioProjectFileSerializerAction(
                 relativePathsXDocumentVisualStudioProjectFileStreamSerializerAction,
                 functionalVisualStudioProjectFileSerializationModifierAction,
                 messageSinkAction,
                 visualStudioProjectFileXDocumentPrettifierAction);
+            var xDocumentVisualStudioProjectFileSerializerAction = services.AddXDocumentVisualStudioProjectFileSerializerAction(
+                relativePathsXDocumentVisualStudioProjectFileStreamSerializerAction,
+                functionalVisualStudioProjectFileSerializationModifierAction,
+                messageSinkAction,
+                visualStudioProjectFileXDocumentPrettifierAction);
+
+            // 3.
+            var asFilePathVisualStudioProjectFileSerializerAction = services.AddAsFilePathVisualStudioProjectFileSerializerAction(
+                visualStudioProjectFileTransformerAction,
+                xDocumentVisualStudioProjectFileSerializerAction);
+            var visualStudioProjectFileSerializerAction = services.AddVisualStudioProjectFileSerializerAction(
+                visualStudioProjectFileTransformerAction,
+                xDocumentVisualStudioProjectFileSerializerAction);
 
 
             services
                 .Run(asFilePathXDocumentVisualStudioProjectFileSerializerAction)
+                .Run(asFilePathVisualStudioProjectFileSerializerAction)
                 .Run(fileEqualityComparerAction)
                 .Run(functionalVisualStudioProjectFileSerializationModifierAction)
                 .Run(messageSinkAction)
@@ -79,6 +88,7 @@ namespace R5T.T0004.Construction
                 .Run(temporaryDirectoryFilePathProviderAction)
                 .Run(testingDataDirectoryContentPathsProviderAction)
                 .Run(visualStudioProjectFileValueEqualityComparerAction)
+                .Run(xDocumentVisualStudioProjectFileSerializerAction)
                 .Run(visualStudioProjectFileSerializerAction)
                 .Run(visualStudioProjectFileTransformerAction)
                 ;
