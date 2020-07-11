@@ -55,8 +55,8 @@ namespace R5T.T0004.Construction
 
 
             services
-                .Run(asFilePathVisualStudioProjectFileSerializerAction)
-                .Run(visualStudioProjectFileSerializerAction)
+                .Run(asFilePathVisualStudioProjectFileSerializerAction.main)
+                .Run(visualStudioProjectFileSerializerAction.main)
                 .Run(fileEqualityComparerAction)
                 .Run(newVisualStudioProjectFileGeneratorAction)
                 .Run(temporaryDirectoryFilePathProviderAction)
