@@ -99,6 +99,9 @@ namespace R5T.T0004.Construction
             return myList;
         }
 
+        /// <summary>
+        /// BEST method for exercising Visual Studio project file serializers.
+        /// </summary>
         private async Task TestVisualStudioProjectFileSerializerRoundTrip()
         {
             //// Test file 1.
