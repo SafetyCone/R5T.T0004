@@ -33,26 +33,24 @@ namespace R5T.T0004.Construction
 
             // 0.
             var fileEqualityComparerAction = services.AddTextFileEqualityComparerAction();
-            var messageFormatterAction = services.AddMessageFormatterAction();
+            var messageSinkAction = services.AddConsoleMessageSinkAction();
             var newVisualStudioProjectFileGeneratorAction = services.AddNewXDocumentVisualStudioProjectFileGeneratorAction();
             var nowUtcProviderAction = services.AddNowUtcProviderAction();
             var temporaryDirectoryFilePathProviderAction = services.AddTemporaryDirectoryFilePathProviderAction();
             var testingDataDirectoryContentPathsProviderAction = services.AddTestingDataDirectoryContentPathsProviderAction();
 
             // 1.
-            var messageSinkAction = services.AddConsoleMessageSinkAction(
-                messageFormatterAction);
             var visualStudioProjectFileValueEqualityComparerAction = services.AddVisualStudioProjectFileValueEqualityComparerAction(
                 nowUtcProviderAction);
 
             // 2.
             var asFilePathVisualStudioProjectFileSerializerAction = services.AddAsFilePathVisualStudioProjectFileSerializerAction(
                 nowUtcProviderAction,
-                messageSinkAction,
+                messageSinkAction.messageSinkAction,
                 stringlyTypedPathOperatorAction);
             var visualStudioProjectFileSerializerAction = services.AddVisualStudioProjectFileSerializerAction(
                 nowUtcProviderAction,
-                messageSinkAction,
+                messageSinkAction.messageSinkAction,
                 stringlyTypedPathOperatorAction);
 
 
@@ -60,7 +58,6 @@ namespace R5T.T0004.Construction
                 .Run(asFilePathVisualStudioProjectFileSerializerAction)
                 .Run(visualStudioProjectFileSerializerAction)
                 .Run(fileEqualityComparerAction)
-                .Run(messageSinkAction)
                 .Run(newVisualStudioProjectFileGeneratorAction)
                 .Run(temporaryDirectoryFilePathProviderAction)
                 .Run(testingDataDirectoryContentPathsProviderAction)

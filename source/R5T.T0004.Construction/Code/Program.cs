@@ -72,7 +72,7 @@ namespace R5T.T0004.Construction
             //await this.TestVisualStudioProjectFileComparerNegative();
             //await this.TestVisualStudioProjectFileComparerPositive();
             //await this.TestVisualStudioProjectFileTransformer();
-            await this.TestVisualStudioProjectFileSerializerRoundTrip();
+            await this.BestTestVisualStudioProjectFileSerializerRoundTrip();
         }
 
         private static void Scratch()
@@ -102,7 +102,7 @@ namespace R5T.T0004.Construction
         /// <summary>
         /// BEST method for exercising Visual Studio project file serializers.
         /// </summary>
-        private async Task TestVisualStudioProjectFileSerializerRoundTrip()
+        private async Task BestTestVisualStudioProjectFileSerializerRoundTrip()
         {
             //// Test file 1.
             //var inputProjectFilePath = this.TestingDataDirectoryContentPathsProvider.GetExampleVisualStudioProjectFilePath01();
