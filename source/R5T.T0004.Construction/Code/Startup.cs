@@ -40,10 +40,6 @@ namespace R5T.T0004.Construction
             var testingDataDirectoryContentPathsProviderAction = services.AddTestingDataDirectoryContentPathsProviderAction();
 
             // 1.
-            var visualStudioProjectFileValueEqualityComparerAction = services.AddVisualStudioProjectFileValueEqualityComparerAction(
-                nowUtcProviderAction);
-
-            // 2.
             var asFilePathVisualStudioProjectFileSerializerAction = services.AddAsFilePathVisualStudioProjectFileSerializerAction(
                 nowUtcProviderAction,
                 messageSinkAction.messageSinkAction,
@@ -52,6 +48,8 @@ namespace R5T.T0004.Construction
                 nowUtcProviderAction,
                 messageSinkAction.messageSinkAction,
                 stringlyTypedPathOperatorAction);
+            var visualStudioProjectFileValueEqualityComparerAction = services.AddVisualStudioProjectFileValueEqualityComparerAction(
+                nowUtcProviderAction);
 
 
             services
