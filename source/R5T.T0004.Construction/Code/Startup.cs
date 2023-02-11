@@ -42,11 +42,11 @@ namespace R5T.T0004.Construction
             // 1.
             var asFilePathVisualStudioProjectFileSerializerAction = services.AddAsFilePathVisualStudioProjectFileSerializerAction(
                 nowUtcProviderAction,
-                messageSinkAction.messageSinkAction,
+                messageSinkAction.Main,
                 stringlyTypedPathOperatorAction);
             var visualStudioProjectFileSerializerAction = services.AddVisualStudioProjectFileSerializerAction(
                 nowUtcProviderAction,
-                messageSinkAction.messageSinkAction,
+                messageSinkAction.Main,
                 stringlyTypedPathOperatorAction);
             var visualStudioProjectFileValueEqualityComparerAction = services.AddVisualStudioProjectFileValueEqualityComparerAction(
                 nowUtcProviderAction);

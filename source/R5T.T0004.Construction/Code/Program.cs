@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -21,7 +22,6 @@ using R5T.Chalandri;
 using R5T.Evosmos;
 using R5T.Liverpool;
 using R5T.Lombardy;
-using R5T.Magyar.IO;
 using R5T.Magyar.Xml;
 using R5T.Ostersund;
 
@@ -114,7 +114,7 @@ namespace R5T.T0004.Construction
 
             var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileSerializer>();
 
-            var xElementVisualStudioProjectFile = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+            var xElementVisualStudioProjectFile = await visualStudioProjectFileSerializer.Deserialize(inputProjectFilePath);
 
             var asFilePathXElementVisualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IAsFilePathVisualStudioProjectFileSerializer>();
 
@@ -131,7 +131,7 @@ namespace R5T.T0004.Construction
 
             var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
 
-            var projectFile1 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+            var projectFile1 = await visualStudioProjectFileSerializer.Deserialize(inputProjectFilePath);
 
             var newVisualStudioProjectFileGenerator = this.ServiceProvider.GetRequiredService<INewVisualStudioProjectFileGenerator>();
 
@@ -168,9 +168,9 @@ namespace R5T.T0004.Construction
 
             var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
 
-            var projectFile1 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+            var projectFile1 = await visualStudioProjectFileSerializer.Deserialize(inputProjectFilePath);
 
-            var projectFile2 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath); // Same file again.
+            var projectFile2 = await visualStudioProjectFileSerializer.Deserialize(inputProjectFilePath); // Same file again.
 
             var visualStudioProjectFileEqualityComparer = this.ServiceProvider.GetRequiredService<IVisualStudioProjectFileValueEqualityComparer>();
 
@@ -188,7 +188,7 @@ namespace R5T.T0004.Construction
 
             var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
 
-            var projectFile1 = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+            var projectFile1 = await visualStudioProjectFileSerializer.Deserialize(inputProjectFilePath);
 
             var newVisualStudioProjectFileGenerator = this.ServiceProvider.GetRequiredService<INewVisualStudioProjectFileGenerator>();
 
@@ -215,7 +215,7 @@ namespace R5T.T0004.Construction
 
             var visualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IXDocumentVisualStudioProjectFileSerializer>();
 
-            var xElementVisualStudioProjectFile = await visualStudioProjectFileSerializer.DeserializeAsync(inputProjectFilePath);
+            var xElementVisualStudioProjectFile = await visualStudioProjectFileSerializer.Deserialize(inputProjectFilePath);
 
             var asFilePathXElementVisualStudioProjectFileSerializer = this.ServiceProvider.GetRequiredService<IAsFilePathXDocumentVisualStudioProjectFileSerializer>();
 
